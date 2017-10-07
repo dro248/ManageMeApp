@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_screen"
     android:layout_width="match_parent"
@@ -10,4 +11,45 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="manageme.managemeapp.MainScreen">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hapticFeedbackEnabled="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:id="@+id/imageView3"
+            app:srcCompat="@drawable/ic_hammer" />
+
+        <TextView
+            android:text="Hi, David!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textAllCaps="false"
+            android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="30dp" />
+
+        <Button
+            android:text="Create Maintenance Request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/create_request_button"
+            android:elevation="24dp"
+            style="@style/Widget.AppCompat.Button.Colored" />
+
+        <Button
+            android:text="View Existing Requests"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/view_pending_requests_button" />
+    </LinearLayout>
 </RelativeLayout>
