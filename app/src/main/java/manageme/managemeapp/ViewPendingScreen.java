@@ -8,11 +8,10 @@ public class ViewPendingScreen extends AppCompatActivity {
 
     private CardView pendingRequestsList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pending_screen);
-
-        pendingRequestsList = (CardView) findViewById(R.id.pendingRequestsView);
     }
 }

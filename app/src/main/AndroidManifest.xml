@@ -23,8 +23,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainScreen" />
-        <activity android:name=".RequestForm" />
-        <activity android:name=".ViewPendingScreen"></activity>
+        <activity android:name=".RequestForm"
+            android:parentActivityName=".MainScreen">
+        </activity>
+        <activity android:name=".ViewPendingScreen"
+            android:parentActivityName=".MainScreen">
+        </activity>
     </application>
 
 </manifest>
