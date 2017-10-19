@@ -12,67 +12,28 @@
     tools:context="manageme.managemeapp.ViewPendingScreen">
 
 
-    <ScrollView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contextClickable="false">
+        android:layout_weight="0.86">
 
-        <LinearLayout
+        <TextView
+            android:text="Pending Requests:"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="32dp"
+            android:id="@+id/textView6"
+            android:textAllCaps="false"
+            android:textSize="18sp"
+            android:layout_weight="0.86" />
 
-            <TextView
-                android:text="Pending Requests:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView6"
-                android:textAllCaps="false"
-                android:textSize="18sp" />
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="451dp"
+            android:id="@+id/requests_view" >
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="10dp" />
+        </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:cardPreventCornerOverlap="false"
-                android:clickable="true"
-                android:layout_marginBottom="5dp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:cardPreventCornerOverlap="false"
-                android:clickable="true"
-                android:layout_marginBottom="5dp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="5dp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:cardPreventCornerOverlap="false"
-                android:clickable="true"
-                android:layout_marginBottom="5dp" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:cardPreventCornerOverlap="false"
-                android:clickable="true"
-                android:layout_marginBottom="5dp" />
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>
