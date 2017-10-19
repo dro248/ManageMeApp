@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import org.w3c.dom.Text;
 
 public class RequestForm extends AppCompatActivity {
 
+    private ImageButton cameraButton;
     private Button submitFormButton;
     private Button cancelButton;
     private TextView title;
@@ -38,11 +40,20 @@ public class RequestForm extends AppCompatActivity {
         // Bind GUI to objects
         submitFormButton = (Button) findViewById(R.id.submitFormButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
+        cameraButton = (ImageButton) findViewById(R.id.cameraButton);
         title = (TextView) findViewById(R.id.titleText);
         description = (TextView) findViewById(R.id.descriptionText);
         severityGroup = (RadioGroup) findViewById(R.id.severityGroup);
 
         // Create Event Listeners for GUI
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Camera functionality coming soon!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         submitFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

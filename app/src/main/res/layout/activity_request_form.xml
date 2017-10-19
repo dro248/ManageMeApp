@@ -57,7 +57,7 @@
                 android:layout_width="79dp"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_menu_camera"
-                android:id="@+id/imageButton"
+                android:id="@+id/cameraButton"
                 android:layout_weight="0.13"
                 android:minHeight="80dp"
                 android:minWidth="80dp" />

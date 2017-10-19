@@ -26,7 +26,7 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
     public String[] dummyDetails = new String[]{
             "Unviewed",
             "Scheduled: Nov 18",
-            "Unviewed:",
+            "Unviewed",
             "Viewed: Sept 20",
             "Viewed: Oct 18",
             "Viewed: Oct 18"
@@ -37,7 +37,6 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
         public ImageView itemImage;
         public TextView itemTitle;
         public TextView itemDetail;
-        public Button fulfillButton;
         public Button discardButton;
 
         public MyViewHolder(View itemLayoutView) {
@@ -45,7 +44,6 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
             itemImage = (ImageView)itemView.findViewById(R.id.item_image);
             itemTitle = (TextView)itemView.findViewById(R.id.item_title);
             itemDetail = (TextView)itemView.findViewById(R.id.item_detail);
-            fulfillButton = (Button) itemView.findViewById(R.id.fulfillButton);
             discardButton = (Button) itemView.findViewById(R.id.discardButton);
         }
     }
@@ -70,18 +68,7 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
         ((MyViewHolder) holder).itemTitle.setText(dummyTitles[position]);
         ((MyViewHolder) holder).itemDetail.setText(dummyDetails[position]);
         ((MyViewHolder) holder).itemImage.setImageResource(ic_picture);
-        ((MyViewHolder) holder).fulfillButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("FULFILL from card " + position);
 
-                // TODO: Send FULFILL signal to database
-
-                // TODO: On Success: Remove card from list
-
-
-            }
-        });
         ((MyViewHolder) holder).discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
