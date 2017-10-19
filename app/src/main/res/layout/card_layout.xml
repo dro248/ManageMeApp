@@ -50,16 +50,16 @@
             android:text="Discard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/button3"
-            android:layout_toEndOf="@+id/button3"
-            android:id="@+id/button4"
+            android:layout_alignTop="@+id/fulfillButton"
+            android:layout_toEndOf="@+id/fulfillButton"
+            android:id="@+id/discardButton"
             style="@style/Widget.AppCompat.Button.Borderless" />
 
         <Button
             android:text="Fulfill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button3"
+            android:id="@+id/fulfillButton"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_marginTop="18dp"
             android:layout_below="@+id/item_detail"
