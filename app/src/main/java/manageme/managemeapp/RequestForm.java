@@ -32,6 +32,9 @@ public class RequestForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_form);
 
+        // Set activity title
+        setTitle("New Request Form");
+
         // Bind GUI to objects
         submitFormButton = (Button) findViewById(R.id.submitFormButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);

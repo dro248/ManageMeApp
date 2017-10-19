@@ -18,6 +18,9 @@ public class ViewPendingScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_pending_screen);
 
+        // Set activity title
+        setTitle("Unresolved Requests");
+
         // Get requested Data (FIRST)
         getRequestedData();
 
@@ -34,8 +37,7 @@ public class ViewPendingScreen extends AppCompatActivity {
 
 
     private void getRequestedData(){
-        // TODO:
-        // Sample data
+        // TODO: How to get data from firebase?
 
     }
 }
