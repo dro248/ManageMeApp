@@ -1,5 +1,8 @@
 package manageme.managemeapp;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +24,7 @@ import org.w3c.dom.Text;
 
 public class RequestForm extends AppCompatActivity {
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageButton cameraButton;
     private Button submitFormButton;
     private Button cancelButton;
@@ -28,6 +32,7 @@ public class RequestForm extends AppCompatActivity {
     private TextView description;
     private RadioGroup severityGroup;
     private String severity;
+    private Bitmap myPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +50,31 @@ public class RequestForm extends AppCompatActivity {
         description = (TextView) findViewById(R.id.descriptionText);
         severityGroup = (RadioGroup) findViewById(R.id.severityGroup);
 
+
         // Create Event Listeners for GUI
+
+        // CAMERA BUTTON
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Camera functionality coming soon!", Toast.LENGTH_SHORT).show();
+
+                // Look for a camera app
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                // If a camera app is found...
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    // ...take picture with camera app...
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
+                    // TODO:...get image back
+
+
+                    Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
+                }
+                // If a camera app is NOT found...
+                else {
+                    Toast.makeText(getApplicationContext(), "Error: No camera app available!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -57,6 +82,9 @@ public class RequestForm extends AppCompatActivity {
         submitFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                title.setError(null);
+                description.setError(null);
+
                 // Create Database Connection
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("pending_request");
@@ -69,6 +97,9 @@ public class RequestForm extends AppCompatActivity {
                     System.out.println(gson.toJson(myRequest).toString());
                 }
                 catch(Exception e){
+                    // Reset errors.
+                    title.setError("This field is required!");
+                    description.setError("This field is required!");
                     Toast.makeText(getApplicationContext(), "Could not submit: Title, Description, and Severity options required!", Toast.LENGTH_SHORT).show();
                     return;
                 }
