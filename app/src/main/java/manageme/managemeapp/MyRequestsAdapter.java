@@ -13,7 +13,7 @@ import static manageme.managemeapp.R.drawable.ic_picture;
 
 
 public class MyRequestsAdapter extends RecyclerView.Adapter {
-
+    private DataBank bank = DataBank.getDataBank();
     public String[] dummyTitles = new String[]{
             "Leaky Sink",
             "Mold Problem!",
@@ -48,7 +48,7 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public MyRequestsAdapter(Request[] requestedData) {
+    public MyRequestsAdapter() {
         super();
         System.out.println("MyRequestsAdapter constructor was called...");
     }
@@ -63,29 +63,46 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         //TODO: Add real values from firebase!
-        ((MyViewHolder) holder).itemTitle.setText(dummyTitles[position]);
-        ((MyViewHolder) holder).itemDetail.setText(dummyDetails[position]);
+//        ((MyViewHolder) holder).itemTitle.setText(dummyTitles[position]);
+//        ((MyViewHolder) holder).itemDetail.setText(dummyDetails[position]);
+//        ((MyViewHolder) holder).itemImage.setImageResource(ic_picture);
+//
+//        ((MyViewHolder) holder).discardButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("DISCARD from card " + position);
+//
+//                // TODO: Send DISCARD signal to database
+//
+//                // TODO: On Success: Remove card from list
+//
+//            }
+//        });
+
+
+        //TODO: Add real values from firebase!
+        ((MyViewHolder) holder).itemTitle.setText(bank.getRequest(position).getTitle());
+        ((MyViewHolder) holder).itemDetail.setText(bank.getRequest(position).getDescription());
         ((MyViewHolder) holder).itemImage.setImageResource(ic_picture);
 
         ((MyViewHolder) holder).discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("DISCARD from card " + position);
+                bank.deleteRequest(position);
 
-                // TODO: Send DISCARD signal to database
-
+                notifyDataSetChanged();
                 // TODO: On Success: Remove card from list
 
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
-        //TODO
-        return 5;
+        return bank.length();
     }
 
 }

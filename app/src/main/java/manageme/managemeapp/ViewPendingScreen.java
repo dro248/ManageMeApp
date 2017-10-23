@@ -7,11 +7,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 
 public class ViewPendingScreen extends AppCompatActivity {
-
     private RecyclerView recyclerView;
     private RecyclerView.Adapter myAdapter;
     private RecyclerView.LayoutManager myLayoutManager;
-    private Request[] requestedData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +19,6 @@ public class ViewPendingScreen extends AppCompatActivity {
         // Set activity title
         setTitle("Unresolved Requests");
 
-        // Get requested Data (FIRST)
-        getRequestedData();
-
         // Bind to view
         recyclerView = (RecyclerView) findViewById(R.id.requests_view);
         recyclerView.setHasFixedSize(false);
@@ -31,13 +26,9 @@ public class ViewPendingScreen extends AppCompatActivity {
         myLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(myLayoutManager);
 
-        myAdapter = new MyRequestsAdapter(requestedData);
+        myAdapter = new MyRequestsAdapter();
         recyclerView.setAdapter(myAdapter);
     }
 
 
-    private void getRequestedData(){
-        // TODO: How to get data from firebase?
-
-    }
 }

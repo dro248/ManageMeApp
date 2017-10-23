@@ -24,6 +24,7 @@ import org.w3c.dom.Text;
 
 public class RequestForm extends AppCompatActivity {
 
+    private DataBank bank = DataBank.getDataBank();
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageButton cameraButton;
     private Button submitFormButton;
@@ -63,13 +64,16 @@ public class RequestForm extends AppCompatActivity {
 
                 // If a camera app is found...
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                    // ...take picture with camera app...
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                    // ...try to take picture with camera app...
 
-                    // TODO:...get image back
-
-
-                    Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
+                    try {
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
+                        // TODO:...get image back
+                    }
+                    catch(Exception e){
+                        Toast.makeText(getApplicationContext(), "Error: There was a problem launching the camera.", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 // If a camera app is NOT found...
                 else {
@@ -86,15 +90,15 @@ public class RequestForm extends AppCompatActivity {
                 description.setError(null);
 
                 // Create Database Connection
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("pending_request");
-                Request myRequest = new Request("","","","");
-                Gson gson = new Gson();
+//                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                DatabaseReference myRef = database.getReference("pending_request");
+                Request myRequest;
+//                Gson gson = new Gson();
 
                 // Attempt to create a Request object
                 try{
                     myRequest = createRequestObject();
-                    System.out.println(gson.toJson(myRequest).toString());
+//                    System.out.println(gson.toJson(myRequest).toString());
                 }
                 catch(Exception e){
                     // Reset errors.
@@ -104,9 +108,12 @@ public class RequestForm extends AppCompatActivity {
                     return;
                 }
 
-                // Attempt to Submit to firebase
+                // TODO: Attempt to Submit to firebase
                 try{
-                    myRef.setValue(gson.toJson(myRequest));
+//                    myRef.setValue(gson.toJson(myRequest));
+
+                    // Insert into DataBank instead
+                    bank.addRequest(myRequest);
                     Toast.makeText(getApplicationContext(), "Success! Request Submitted.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -140,7 +147,7 @@ public class RequestForm extends AppCompatActivity {
                 throw new RuntimeException();
         }
 
-        if(title.getText().equals("") || description.getText().equals(""))
+        if(title.getText().length() < 1 || description.getText().length() < 1)
             throw new RuntimeException();
 
         // TODO: Change STATUS
