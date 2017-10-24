@@ -1,5 +1,8 @@
 package manageme.managemeapp;
 
+import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,31 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import static manageme.managemeapp.R.drawable.ic_hammer;
 import static manageme.managemeapp.R.drawable.ic_picture;
 
 
 public class MyRequestsAdapter extends RecyclerView.Adapter {
     private DataBank bank = DataBank.getDataBank();
-    public String[] dummyTitles = new String[]{
-            "Leaky Sink",
-            "Mold Problem!",
-            "Hole in wall",
-            "I lost my key...",
-            "No internet. Please fix!",
-            "Our Neighbors are too loud..."
-    };
-
-    public String[] dummyDetails = new String[]{
-            "Unviewed",
-            "Scheduled: Nov 18",
-            "Unviewed",
-            "Viewed: Sept 20",
-            "Viewed: Oct 18",
-            "Viewed: Oct 18"
-    };
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public int currentItem;
         public ImageView itemImage;
@@ -50,59 +35,50 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
 
     public MyRequestsAdapter() {
         super();
-        System.out.println("MyRequestsAdapter constructor was called...");
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_layout, parent, false);
-
         MyViewHolder vh = new MyViewHolder(v);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        //TODO: Add real values from firebase!
-//        ((MyViewHolder) holder).itemTitle.setText(dummyTitles[position]);
-//        ((MyViewHolder) holder).itemDetail.setText(dummyDetails[position]);
-//        ((MyViewHolder) holder).itemImage.setImageResource(ic_picture);
-//
-//        ((MyViewHolder) holder).discardButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("DISCARD from card " + position);
-//
-//                // TODO: Send DISCARD signal to database
-//
-//                // TODO: On Success: Remove card from list
-//
-//            }
-//        });
-
-
-        //TODO: Add real values from firebase!
         ((MyViewHolder) holder).itemTitle.setText(bank.getRequest(position).getTitle());
-        ((MyViewHolder) holder).itemDetail.setText(bank.getRequest(position).getDescription());
-        ((MyViewHolder) holder).itemImage.setImageResource(ic_picture);
+        ((MyViewHolder) holder).itemDetail.setText(bank.getRequest(position).getStatus());
+        ((MyViewHolder) holder).itemImage.setImageBitmap(bank.getRequest(position).getPhoto());
 
         ((MyViewHolder) holder).discardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bank.deleteRequest(position);
-
-                notifyDataSetChanged();
-                // TODO: On Success: Remove card from list
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(bank.getPendingScreen());
+                builder
+                    .setTitle("Discard Request")
+                    .setMessage("Are you sure you want to discard this request?")
+                    .setNegativeButton("Discard", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked Discard button
+                            bank.deleteRequest(position);
+                            notifyDataSetChanged();
+                            Toast.makeText(bank.getPendingScreen(), "Request Discarded.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled Discard process
+                        }
+                    })
+                    .create()
+                    .show();
             }
         });
-
     }
 
     @Override
-    public int getItemCount() {
-        return bank.length();
-    }
+    public int getItemCount() { return bank.length(); }
+
 
 }

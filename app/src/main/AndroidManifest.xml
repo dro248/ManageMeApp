@@ -28,7 +28,7 @@
             android:name=".MainScreen"
             android:screenOrientation="portrait"
         />
-        <activity android:name=".RequestForm"
+        <activity android:name=".RequestFormScreen"
             android:parentActivityName=".MainScreen">
         </activity>
         <activity android:name=".ViewPendingScreen"

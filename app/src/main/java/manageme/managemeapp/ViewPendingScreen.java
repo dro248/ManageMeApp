@@ -1,5 +1,6 @@
 package manageme.managemeapp;
 
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ public class ViewPendingScreen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter myAdapter;
     private RecyclerView.LayoutManager myLayoutManager;
+    private DataBank bank = DataBank.getDataBank();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,7 @@ public class ViewPendingScreen extends AppCompatActivity {
 
         // Set activity title
         setTitle("Unresolved Requests");
+        bank.setPendingScreen(this);
 
         // Bind to view
         recyclerView = (RecyclerView) findViewById(R.id.requests_view);

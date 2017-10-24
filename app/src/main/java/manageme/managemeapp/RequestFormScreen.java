@@ -22,7 +22,7 @@ import com.google.gson.GsonBuilder;
 import org.w3c.dom.Text;
 
 
-public class RequestForm extends AppCompatActivity {
+public class RequestFormScreen extends AppCompatActivity {
 
     private DataBank bank = DataBank.getDataBank();
     static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -64,15 +64,17 @@ public class RequestForm extends AppCompatActivity {
 
                 // If a camera app is found...
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
                     // ...try to take picture with camera app...
 
                     try {
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        Bundle extras = takePictureIntent.getExtras();
+                        myPhoto = (Bitmap) extras.get("data");
                         Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
-                        // TODO:...get image back
                     }
                     catch(Exception e){
-                        Toast.makeText(getApplicationContext(), "Error: There was a problem launching the camera.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Error: There was a problem launching the camera.", Toast.LENGTH_SHORT).show();
                     }
                 }
                 // If a camera app is NOT found...
@@ -83,35 +85,27 @@ public class RequestForm extends AppCompatActivity {
         });
 
 
+
         submitFormButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 title.setError(null);
                 description.setError(null);
-
-                // Create Database Connection
-//                FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                DatabaseReference myRef = database.getReference("pending_request");
                 Request myRequest;
-//                Gson gson = new Gson();
 
                 // Attempt to create a Request object
                 try{
                     myRequest = createRequestObject();
-//                    System.out.println(gson.toJson(myRequest).toString());
                 }
                 catch(Exception e){
                     // Reset errors.
-                    title.setError("This field is required!");
-                    description.setError("This field is required!");
+                    if (title.getText().length() < 1) {title.setError("This field is required!");}
+                    if (description.getText().length() < 1) {description.setError("This field is required!");}
                     Toast.makeText(getApplicationContext(), "Could not submit: Title, Description, and Severity options required!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // TODO: Attempt to Submit to firebase
                 try{
-//                    myRef.setValue(gson.toJson(myRequest));
-
                     // Insert into DataBank instead
                     bank.addRequest(myRequest);
                     Toast.makeText(getApplicationContext(), "Success! Request Submitted.", Toast.LENGTH_SHORT).show();
@@ -151,6 +145,16 @@ public class RequestForm extends AppCompatActivity {
             throw new RuntimeException();
 
         // TODO: Change STATUS
-        return new Request(title.getText().toString(), description.getText().toString(), "unviewed", severity);
+        return new Request(title.getText().toString(), description.getText().toString(), "Unviewed", severity, myPhoto);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            mImageView.setImageBitmap(imageBitmap);
+            myPhoto = imageBitmap;
+        }
     }
 }
