@@ -75,6 +75,22 @@ public class MyRequestsAdapter extends RecyclerView.Adapter {
                     .show();
             }
         });
+
+        // On Card Click...
+        ((MyViewHolder) holder).itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(bank.getPendingScreen());
+                builder
+                        .setTitle("Request Info")
+//                        .setMessage(requestBody.toString())
+                        .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {}
+                        })
+                        .create()
+                        .show();
+            }
+        });
     }
 
     @Override
