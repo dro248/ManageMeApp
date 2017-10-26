@@ -71,6 +71,10 @@ public class RequestFormScreen extends AppCompatActivity {
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                         Bundle extras = takePictureIntent.getExtras();
                         myPhoto = (Bitmap) extras.get("data");
+
+                        //TODO: change cameraButton photo to myPhoto
+                        cameraButton.setImageBitmap(myPhoto);
+
                         Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
                     }
                     catch(Exception e){

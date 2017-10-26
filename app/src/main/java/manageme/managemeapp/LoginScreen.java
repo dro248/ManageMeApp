@@ -95,10 +95,12 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Clear text error, error message, and color
-                mErrorMessageTextView.setText("");
-                mErrorMessageTextView.setError(null);
-                mErrorMessageTextView.setBackgroundColor(Color.parseColor("#fafafa"));
+//                // Clear text error, error message, and color
+//                mErrorMessageTextView.setText("");
+//                mErrorMessageTextView.setError(null);
+//                mErrorMessageTextView.setBackgroundColor(Color.parseColor("#fafafa"));
+
+                mErrorMessageTextView.setVisibility(View.INVISIBLE);
 
                 attemptLogin();
             }
@@ -211,6 +213,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             mErrorMessageTextView.setError("");
             mErrorMessageTextView.setText("The email address and password you submitted do not match. Please try again.");
             mErrorMessageTextView.setBackgroundColor(Color.parseColor("#ffaaaa"));
+            mErrorMessageTextView.setVisibility(View.VISIBLE);
         }
         else {
             // Show a progress spinner, and kick off a background task to
