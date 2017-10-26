@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +63,8 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Button mSignIn_Button;
+    private TextView mErrorMessageTextView;
 
 
 
@@ -74,6 +77,8 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        mErrorMessageTextView = (TextView) findViewById(R.id.errorMessageTextView);
+        mSignIn_Button = (Button) findViewById(R.id.email_sign_in_button);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -90,6 +95,11 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Clear text error, error message, and color
+                mErrorMessageTextView.setText("");
+                mErrorMessageTextView.setError(null);
+                mErrorMessageTextView.setBackgroundColor(Color.parseColor("#fafafa"));
+
                 attemptLogin();
             }
         });
@@ -148,6 +158,8 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        boolean problemFlagIsSet = false;
+
         if (mAuthTask != null) {
             return;
         }
@@ -168,6 +180,7 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
+            problemFlagIsSet = true;
         }
 
         // Check for a valid email address.
@@ -175,17 +188,31 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+            problemFlagIsSet = true;
+        }
+        else if (!isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
+            problemFlagIsSet = true;
         }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        } else {
+            problemFlagIsSet = true;
+        }
+        if (!isEmailCorrect(email) || !isPasswordCorrect(password)){
+            // Email or password is incorrect - show sign-in error message
+
+
+            if (problemFlagIsSet) return;
+            mErrorMessageTextView.setError("");
+            mErrorMessageTextView.setText("The email address and password you submitted do not match. Please try again.");
+            mErrorMessageTextView.setBackgroundColor(Color.parseColor("#ffaaaa"));
+        }
+        else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
@@ -199,14 +226,18 @@ public class LoginScreen extends AppCompatActivity implements LoaderCallbacks<Cu
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-//        return email.contains("@");
+        return email.contains("@");
+    }
+
+    private boolean isEmailCorrect(String email){
         return email.equals("david@gmail.com");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-//        return password.length() > 4;
+        return password.length() > 4;
+    }
+
+    private boolean isPasswordCorrect(String password){
         return password.equals("david");
     }
 
