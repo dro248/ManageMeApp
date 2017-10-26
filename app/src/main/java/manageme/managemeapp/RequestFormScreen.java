@@ -2,6 +2,7 @@ package manageme.managemeapp;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,16 +12,8 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-//import com.google.android.gms.tasks.RuntimeExecutionException;
-//import com.google.firebase.database.DatabaseReference;
-//import com.google.firebase.database.FirebaseDatabase;
-//
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
-//
-//import org.w3c.dom.Text;
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RequestFormScreen extends AppCompatActivity {
 
@@ -34,6 +27,7 @@ public class RequestFormScreen extends AppCompatActivity {
     private RadioGroup severityGroup;
     private String severity;
     private Bitmap myPhoto;
+    private Timer photoTimer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +44,7 @@ public class RequestFormScreen extends AppCompatActivity {
         title = (TextView) findViewById(R.id.titleText);
         description = (TextView) findViewById(R.id.descriptionText);
         severityGroup = (RadioGroup) findViewById(R.id.severityGroup);
+
 
 
         // Create Event Listeners for GUI
@@ -72,13 +67,14 @@ public class RequestFormScreen extends AppCompatActivity {
                         Bundle extras = takePictureIntent.getExtras();
                         myPhoto = (Bitmap) extras.get("data");
 
-                        //TODO: change cameraButton photo to myPhoto
-                        cameraButton.setImageBitmap(myPhoto);
-
-                        Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
+//                        //TODO: change cameraButton photo to myPhoto
+//                        cameraButton.setBackgroundColor(Color.parseColor("#e8830c"));
+//
+//                        Toast.makeText(getApplicationContext(), "Success with Camera!", Toast.LENGTH_SHORT).show();
                     }
                     catch(Exception e){
 //                        Toast.makeText(getApplicationContext(), "Error: There was a problem launching the camera.", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
                 }
                 // If a camera app is NOT found...
